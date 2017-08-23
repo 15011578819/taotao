@@ -2,11 +2,9 @@ package com.taotao.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
-import com.taotao.pojo.EUDataGridResult;
-import com.taotao.pojo.TaotaoResult;
-import com.taotao.pojo.TbItem;
-import com.taotao.pojo.TbItemExample;
+import com.taotao.pojo.*;
 import com.taotao.service.ItemService;
 import com.taotao.utils.IDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     TbItemMapper itemMapper;
+
+    @Autowired
+    TbItemDescMapper tbItemDescMapper;
 
     @Override
     public TbItem getItemById(long itemId) {
@@ -58,15 +59,24 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public TaotaoResult addItem(TbItem tbItem) {
+    public TaotaoResult addItem(TbItem tbItem, TbItemDesc tbItemDesc) {
         //添加商品id
-        tbItem.setId(IDUtils.genItemId());
+        Long itemId=IDUtils.genItemId();
+        tbItem.setId(itemId);
         //创建日期和更新日期
-        tbItem.setCreated(new Date());
-        tbItem.setUpdated(new Date());
+        Date date=new Date();
+        tbItem.setCreated(date);
+        tbItem.setUpdated(date);
         //添加商品的状态
         tbItem.setStatus((byte) 1);
         itemMapper.insert(tbItem);
+
+        //商品描述
+        tbItemDesc.setItemId(itemId);
+        tbItemDesc.setCreated(date);
+        tbItemDesc.setUpdated(date);
+        tbItemDescMapper.insert(tbItemDesc);
+
         return TaotaoResult.ok(tbItem);
     }
 }

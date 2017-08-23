@@ -3,6 +3,7 @@ package com.taotao.controller;
 import com.taotao.pojo.EUDataGridResult;
 import com.taotao.pojo.TaotaoResult;
 import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
 import com.taotao.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,11 @@ public class ItemController {
 
     @RequestMapping(value = "/item/save" ,method = RequestMethod.POST)
     @ResponseBody
-    public TaotaoResult addItem(TbItem tbItem){
-        TaotaoResult result=itemService.addItem(tbItem);
+    public TaotaoResult addItem(TbItem tbItem,  String desc){
+        TbItemDesc tbItemDesc=new TbItemDesc();
+        tbItemDesc.setItemDesc(desc);
+        TaotaoResult result=itemService.addItem(tbItem,tbItemDesc);
+        System.out.println("TbItemDesc.desc==="+tbItemDesc.getItemDesc());
         return result;
     }
 
