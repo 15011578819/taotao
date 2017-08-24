@@ -99,6 +99,7 @@
     delete from tb_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <delete id="deleteByExample" parameterType="com.taotao.pojo.TbItemExample" >
     delete from tb_item
     <if test="_parameter != null" >
@@ -301,5 +302,13 @@
       created = #{created,jdbcType=TIMESTAMP},
       updated = #{updated,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateStateUpByPrimaryKey" parameterType="java.lang.Long">
+     UPDATE tb_item SET  status = 1 WHERE id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateStateDownByPrimaryKey" parameterType="java.lang.Long">
+    UPDATE tb_item SET  status = 2 WHERE id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

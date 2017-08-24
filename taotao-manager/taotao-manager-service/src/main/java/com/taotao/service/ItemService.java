@@ -12,5 +12,8 @@ public interface ItemService {
 
    public  TbItem getItemById(long itemId);
    public EUDataGridResult getItemList(int page,int rows);
-   public TaotaoResult addItem(TbItem tbItem, TbItemDesc tbItemDesc);
+   public TaotaoResult addItem(TbItem tbItem, TbItemDesc tbItemDesc,String itemParams);
+   public TaotaoResult deletItem(Long [] ids);
+   public TaotaoResult updateItemState(Long itemId);
+   public TaotaoResult updateNormalState(Long itemId);
 }

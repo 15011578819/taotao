@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
+import com.taotao.mapper.TbItemParamItemMapper;
 import com.taotao.pojo.*;
 import com.taotao.service.ItemService;
 import com.taotao.utils.IDUtils;
@@ -25,6 +26,14 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     TbItemDescMapper tbItemDescMapper;
 
+    @Autowired
+    TbItemParamItemMapper tbItemParamItemMapper;
+
+    /**
+     * 查询商品
+     * @param itemId
+     * @return
+     */
     @Override
     public TbItem getItemById(long itemId) {
         TbItemExample example=new TbItemExample();
@@ -58,8 +67,15 @@ public class ItemServiceImpl implements ItemService {
         return result;
     }
 
+    /**
+     * 添加商品
+     * @param tbItem
+     * @param tbItemDesc
+     * @param itemParams
+     * @return
+     */
     @Override
-    public TaotaoResult addItem(TbItem tbItem, TbItemDesc tbItemDesc) {
+    public TaotaoResult addItem(TbItem tbItem, TbItemDesc tbItemDesc,String itemParams) {
         //添加商品id
         Long itemId=IDUtils.genItemId();
         tbItem.setId(itemId);
@@ -77,6 +93,62 @@ public class ItemServiceImpl implements ItemService {
         tbItemDesc.setUpdated(date);
         tbItemDescMapper.insert(tbItemDesc);
 
+        //添加商品规格
+        insertItemParamItem(itemId,itemParams);
+
         return TaotaoResult.ok(tbItem);
+    }
+
+    /**
+     * 删除商品
+     * @param ids
+     * @return
+     */
+    @Override
+    public TaotaoResult deletItem(Long[] ids) {
+        for (int i=0;i<ids.length;i++){
+            itemMapper.deleteByPrimaryKey(ids[i]);
+        }
+        return TaotaoResult.ok();
+    }
+
+    /**商品状态（下架）    1-正常，2-下架，3-删除'
+     * 更新商品上下架状态
+     * @param itemId
+     * @return
+     */
+    @Override
+    public TaotaoResult updateItemState(Long itemId) {
+        itemMapper.updateStateDownByPrimaryKey(itemId);
+        return TaotaoResult.ok();
+    }
+
+    /**
+     * 商品状态正常   1-正常
+     * @param itemId
+     * @return
+     */
+    @Override
+    public TaotaoResult updateNormalState(Long itemId) {
+        itemMapper.updateStateUpByPrimaryKey(itemId);
+        return TaotaoResult.ok();
+    }
+
+
+    /**
+     * 添加规格参数
+     * @param itemId
+     * @param itemParams
+     * @return
+     */
+    private TaotaoResult  insertItemParamItem(long itemId,String itemParams){
+        TbItemParamItem tbItemParamItem=new TbItemParamItem();
+        tbItemParamItem.setItemId(itemId);
+        tbItemParamItem.setParamData(itemParams);
+        Date date=new Date();
+        tbItemParamItem.setCreated(date);
+        tbItemParamItem.setUpdated(date);
+        tbItemParamItemMapper.insert(tbItemParamItem);
+        return TaotaoResult.ok();
     }
 }

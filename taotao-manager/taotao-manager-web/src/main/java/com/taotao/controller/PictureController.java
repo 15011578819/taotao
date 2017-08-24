@@ -21,7 +21,7 @@ public class PictureController {
     @ResponseBody
     public PictureResult upload(MultipartFile uploadFile) {
         PictureResult result = pictureService.uploadPicture(uploadFile);
-        System.out.println("PictureService"+result.getMessage()+","+result.getUrl());
+        System.out.println("PictureService:error=="+result.getError()+",url=="+result.getUrl());
         return result;
     }
 }

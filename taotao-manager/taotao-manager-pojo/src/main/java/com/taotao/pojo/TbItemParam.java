@@ -13,6 +13,16 @@ public class TbItemParam {
 
     private String paramData;
 
+    private String itemCatName;
+
+    public String getItemCatName() {
+        return itemCatName;
+    }
+
+    public void setItemCatName(String itemCatName) {
+        this.itemCatName = itemCatName;
+    }
+
     public Long getId() {
         return id;
     }
@@ -51,5 +61,16 @@ public class TbItemParam {
 
     public void setParamData(String paramData) {
         this.paramData = paramData == null ? null : paramData.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "TbItemParam{" +
+                "id=" + id +
+                ", itemCatId=" + itemCatId +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", paramData='" + paramData + '\'' +
+                '}';
     }
 }
