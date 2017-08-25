@@ -1,6 +1,7 @@
 package com.taotao.service.impl;
 
 import com.taotao.mapper.TbItemParamItemMapper;
+import com.taotao.pojo.TaotaoResult;
 import com.taotao.pojo.TbItemParamItem;
 import com.taotao.pojo.TbItemParamItemExample;
 import com.taotao.service.ItemParamItemService;
@@ -43,5 +44,14 @@ public class ItemParamItemServiceImpl implements ItemParamItemService{
         }
         sb.append("</div>");
         return sb.toString();
+    }
+
+    @Override
+    public TaotaoResult getItemParamItem_(Long itemId) {
+        TbItemParamItemExample example=new TbItemParamItemExample();
+        TbItemParamItemExample.Criteria criteria=example.createCriteria();
+        criteria.andItemIdEqualTo(itemId);
+        List<TbItemParamItem> tbItemParamItem=tbItemParamItemMapper.selectByExampleWithBLOBs(example);
+        return TaotaoResult.ok(tbItemParamItem.get(0));
     }
 }

@@ -118,8 +118,10 @@ public class ItemServiceImpl implements ItemService {
      * @return
      */
     @Override
-    public TaotaoResult updateItemState(Long itemId) {
-        itemMapper.updateStateDownByPrimaryKey(itemId);
+    public TaotaoResult updateItemState(Long[] itemId) {
+        for (int i=0;i<itemId.length;i++){
+            itemMapper.updateStateDownByPrimaryKey(itemId[i]);
+        }
         return TaotaoResult.ok();
     }
 
@@ -129,8 +131,11 @@ public class ItemServiceImpl implements ItemService {
      * @return
      */
     @Override
-    public TaotaoResult updateNormalState(Long itemId) {
-        itemMapper.updateStateUpByPrimaryKey(itemId);
+    public TaotaoResult updateNormalState(Long[] itemId) {
+        for (int i=0;i<itemId.length;i++){
+            itemMapper.updateStateUpByPrimaryKey(itemId[i]);
+        }
+
         return TaotaoResult.ok();
     }
 
@@ -150,5 +155,16 @@ public class ItemServiceImpl implements ItemService {
         tbItemParamItem.setUpdated(date);
         tbItemParamItemMapper.insert(tbItemParamItem);
         return TaotaoResult.ok();
+    }
+
+    /**
+     * 查询商品的描述
+     * @param itemId
+     * @return
+     */
+    @Override
+    public TaotaoResult getItemDesc(Long itemId) {
+        TbItemDesc desc=tbItemDescMapper.selectByPrimaryKey(itemId);
+        return TaotaoResult.ok(desc);
     }
 }

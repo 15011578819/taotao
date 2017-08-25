@@ -55,8 +55,8 @@
 	        		
 	        	</td>
 	        </tr>
-	    </table>itemParams
-	    <input type="hidden" name=""/>
+	    </table>
+	    <input type="hidden" name="itemParams"/>
 	</form>
 	<div style="padding:5px">
 	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
@@ -68,11 +68,10 @@
 	//页面初始化完毕后执行此方法
 	$(function(){
 		//创建富文本编辑器
-		//itemAddEditor = TAOTAO.createEditor("#itemAddForm [name=desc]");
-		itemAddEditor = KindEditor.create("#itemAddForm [name=desc]", TT.kingEditorParams);
+		itemAddEditor = TAOTAO.createEditor("#itemAddForm [name=desc]");
 		//初始化类目选择和图片上传器
 		TAOTAO.init({fun:function(node){
-			//根据商品的分类id取商品 的规格模板，生成规格信息。第四天内容。
+			//根据商品的分类id取商品 的规格模板，生成规格信息。
 			TAOTAO.changeItemParam(node, "itemAddForm");
 		}});
 	});
@@ -88,6 +87,7 @@
 		//同步文本框中的商品描述
 		itemAddEditor.sync();
 		//取商品的规格
+		
 		var paramJson = [];
 		$("#itemAddForm .params li").each(function(i,e){
 			var trs = $(e).find("tr");
