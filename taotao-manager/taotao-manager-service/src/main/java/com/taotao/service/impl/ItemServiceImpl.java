@@ -99,13 +99,34 @@ public class ItemServiceImpl implements ItemService {
         return TaotaoResult.ok(tbItem);
     }
 
+    @Override
+    public TaotaoResult updateItem(TbItem tbItem, TbItemDesc tbItemDesc, String itemParam) {
+        //更新商品表
+        Date date=new Date();
+        tbItem.setUpdated(date);
+        tbItem.setStatus((byte) 1);
+        itemMapper.updateByPrimaryKeySelective(tbItem);
+        //更新商品描述表
+        tbItemDesc.setUpdated(date);
+        tbItemDesc.setItemId(tbItem.getId());
+        tbItemDescMapper.updateByPrimaryKeySelective(tbItemDesc);
+        //更新规格表
+        TbItemParamItem itemParamItem=new TbItemParamItem();
+        itemParamItem.setParamData(itemParam);
+        itemParamItem.setUpdated(date);
+        itemParamItem.setItemId(tbItem.getId());
+        tbItemParamItemMapper.updateByPrimaryKeySelective_itemId(itemParamItem);
+
+        return TaotaoResult.ok(tbItem);
+    }
+
     /**
      * 删除商品
      * @param ids
      * @return
      */
     @Override
-    public TaotaoResult deletItem(Long[] ids) {
+    public TaotaoResult deleteItem(Long[] ids) {
         for (int i=0;i<ids.length;i++){
             itemMapper.deleteByPrimaryKey(ids[i]);
         }

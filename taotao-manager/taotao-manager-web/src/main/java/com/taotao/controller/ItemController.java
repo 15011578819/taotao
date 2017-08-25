@@ -72,7 +72,7 @@ public class ItemController {
     @RequestMapping(value = "/rest/item/delete",method = RequestMethod.POST)
     @ResponseBody
     public TaotaoResult deleteItem(@RequestParam(value = "ids",defaultValue = "0") Long[] itemId){
-        TaotaoResult result=itemService.deletItem(itemId);
+        TaotaoResult result=itemService.deleteItem(itemId);
         return result;
     }
 
@@ -117,6 +117,15 @@ public class ItemController {
     public TaotaoResult getItemParamItem(@PathVariable long itemId){
         TaotaoResult itemParamItem=itemParamItemService.getItemParamItem_(itemId);
         return  itemParamItem;
+    }
+
+    @RequestMapping("/rest/item/update")
+    @ResponseBody
+    public TaotaoResult updateItem(TbItem tbItem,  String desc,String itemParams){
+        TbItemDesc tbItemDesc=new TbItemDesc();
+        tbItemDesc.setItemDesc(desc);
+        TaotaoResult result=itemService.updateItem(tbItem,tbItemDesc,itemParams);
+        return result;
     }
 
 }
