@@ -8,6 +8,9 @@ public class TreeNode {
     private String text;
     private String state;
 
+    public TreeNode() {
+    }
+
     public TreeNode(long id, String text, String state) {
         this.id = id;
         this.text = text;
@@ -18,7 +21,7 @@ public class TreeNode {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
