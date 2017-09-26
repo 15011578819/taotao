@@ -1,5 +1,7 @@
 package com.taotao.controller;
 
+import com.taotao.pojo.TaotaoResult;
+import com.taotao.pojo.TbContentCategory;
 import com.taotao.pojo.TreeNode;
 import com.taotao.service.ContentCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,11 @@ public class ContentCategoryController {
     public List<TreeNode> getContentCatList(@RequestParam(value = "id",defaultValue = "0") long parentId){
         List<TreeNode> contentCategoryLsit = contentCategoryService.getContentCategoryLsit(parentId);
         return contentCategoryLsit;
+    }
+
+    @RequestMapping("/create")
+    @ResponseBody
+    public TaotaoResult createContentCategory(long parentId,String name){
+        return contentCategoryService.createContentCategory(parentId,name);
     }
 }
