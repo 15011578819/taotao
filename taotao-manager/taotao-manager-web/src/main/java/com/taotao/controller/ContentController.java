@@ -36,4 +36,17 @@ public class ContentController {
         return result;
     }
 
+    @RequestMapping("/content/delete")
+    @ResponseBody
+    public TaotaoResult deleteContent(@RequestParam(value = "ids",defaultValue = "0")Long[] ids){
+        System.out.println("ids===="+ids);
+         return contentService.deleteContent(ids);
+    }
+
+    @RequestMapping("/rest/content/edit")
+    @ResponseBody
+    public TaotaoResult updateContent(TbContent tbContent){
+        System.out.println("tbContent==="+tbContent.getContent()+",,"+tbContent.getSubTitle());
+        return contentService.updateContent(tbContent);
+    }
 }

@@ -37,6 +37,11 @@ public class ContentServiceImpl implements ContentService {
         return result;
     }
 
+    /**
+     * 插入内容
+     * @param tbContent
+     * @return
+     */
     @Override
     public TaotaoResult insertContent(TbContent tbContent) {
         tbContent.setCreated(new Date());
@@ -44,4 +49,28 @@ public class ContentServiceImpl implements ContentService {
         tbContentMapper.insert(tbContent);
         return TaotaoResult.ok();
     }
+
+    /**
+     * 删除内容
+     * @param ids
+     * @return
+     */
+    @Override
+    public TaotaoResult deleteContent(Long[] ids) {
+        for (int i=0;i<ids.length;i++) {
+            tbContentMapper.deleteByPrimaryKey(ids[i]);
+        }
+
+        return TaotaoResult.ok();
+    }
+
+    @Override
+    public TaotaoResult updateContent(TbContent content) {
+        content.setUpdated(new Date());
+        content.setCreated(new Date());
+        tbContentMapper.updateByPrimaryKey(content);
+        return TaotaoResult.ok(content);
+    }
+
+
 }
